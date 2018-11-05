@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="LinkedList\AddItemTests.cs" />
     <Compile Include="LinkedList\RetrieveItemTests.cs" />
+    <Compile Include="List\ListTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
