@@ -167,7 +167,12 @@ namespace DataStructures.List
 
         public int IndexOf(T item)
         {
-            return Array.IndexOf(this.array, item);
+            return Array.IndexOf(this.array, item, 0, this.Count);
+        }
+
+        public int LastIndexOf(T item)
+        {
+            return Array.LastIndexOf(this.array, item, this.Count - 1, this.Count);
         }
 
         public bool Remove(T item)
@@ -183,6 +188,11 @@ namespace DataStructures.List
 
         public void RemoveAll(Predicate<T> predicate)
         {
+            if (predicate == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             for (int i = 0; i < this.Count; i++)
             {
                 if (predicate(this.array[i]))
@@ -194,7 +204,137 @@ namespace DataStructures.List
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            return this.IndexOf(item) >= 0;
+        }
+
+        public bool Exists(Predicate<T> predicate)
+        {
+            if (predicate == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            for (int i = 0; i < this.Count; i++)
+            {
+                if (predicate(this.array[i]))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public T Find(Predicate<T> predicate)
+        {
+            if (predicate == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            for (int i = 0; i < this.Count; i++)
+            {
+                if (predicate(this.array[i]))
+                {
+                    return this.array[i];
+                }
+            }
+            return default(T);
+        }
+
+        public int FindIndex(Predicate<T> predicate)
+        {
+            if (predicate == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            for (int i = 0; i < this.Count; i++)
+            {
+                if (predicate(this.array[i]))
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public T FindLast(Predicate<T> predicate)
+        {
+            if (predicate == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            for (int i = this.Count - 1; i >= 0; i--)
+            {
+                if (predicate(this.array[i]))
+                {
+                    return this.array[i];
+                }
+            }
+            return default(T);
+        }
+
+        public int FindLastIndex(Predicate<T> predicate)
+        {
+            for (int i = this.Count - 1; i >= 0; i--)
+            {
+                if (predicate(this.array[i]))
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public List<T> FindAll(Predicate<T> predicate)
+        {
+            if (predicate == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            List<T> result = new List<T>();
+
+            for (int i = 0; i < this.Count; i++)
+            {
+                if (predicate(this.array[i]))
+                {
+                    result.Add(this.array[i]);
+                }
+            }
+
+            return result;
+        }
+
+        public bool TrueForAll(Predicate<T> predicate)
+        {
+            if (predicate == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            for (int i = 0; i < this.Count; i++)
+            {
+                if (!predicate(this.array[i]))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public void ForEach(Action<T> action)
+        {
+            if (action == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            for (int i = 0; i < this.Count; i++)
+            {
+                action(this.array[i]);
+            }
         }
 
         public void CopyTo(T[] array, int arrayIndex)

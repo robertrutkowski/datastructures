@@ -195,6 +195,101 @@ namespace DataStructures.Tests.List
             this.TestListElements(list);
         }
 
+        [TestMethod]
+        public void ContainsTests()
+        {
+            List<int> list = list = new List<int>() { 43, 564, 65, 87, 0, 1, 2, 3, 4, 5, 45, 54, 54, 65, 6, 7, 8, 9, 10 };
+            Assert.IsTrue(list.Contains(65));
+            Assert.IsFalse(list.Contains(99));
+        }
+
+        [TestMethod]
+        public void ExistsTests()
+        {
+            List<int> list = list = new List<int>() { 43, 564, 65, 87, 0, 1, 2, 3, 4, 5, 45, 54, 54, 65, 6, 7, 8, 9, 10 };
+            Assert.IsTrue(list.Exists(x => x < 100));
+            Assert.IsFalse(list.Exists(x => x > 1000));
+        }
+
+        [TestMethod]
+        public void FindTests()
+        {
+            List<int> list = list = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            Assert.IsTrue(list.Find(x => x < 100) == 1);
+            Assert.IsTrue(list.Find(x => x > 1) == 2);
+            Assert.IsTrue(list.Find(x => x == 3) == 3);
+            Assert.IsTrue(list.Find(x => x == 11) == 0);
+        }
+
+        [TestMethod]
+        public void FindIndexTests()
+        {
+            List<int> list = list = new List<int>() { 1, 2, 3, 4, 5, 3, 6, 7, 8, 9, 10 };
+            Assert.IsTrue(list.FindIndex(x => x < 100) == 0);
+            Assert.IsTrue(list.FindIndex(x => x > 1) == 1);
+            Assert.IsTrue(list.FindIndex(x => x == 3) == 2);
+            Assert.IsTrue(list.FindIndex(x => x == 11) == -1);
+        }
+
+        [TestMethod]
+        public void FindLastTests()
+        {
+            List<int> list = list = new List<int>() { 1, 2, 3, 4, 5, 3, 6, 7, 8, 9, 10 };
+            Assert.IsTrue(list.FindLast(x => x < 100) == 10);
+            Assert.IsTrue(list.FindLast(x => x > 1) == 10);
+            Assert.IsTrue(list.FindLast(x => x == 3) == 3);
+            Assert.IsTrue(list.FindLast(x => x == 1) == 1);
+            Assert.IsTrue(list.FindLast(x => x == 11) == 0);
+        }
+
+        [TestMethod]
+        public void FindLastIndexTests()
+        {
+            List<int> list = list = new List<int>() { 1, 2, 3, 4, 5, 3, 6, 7, 8, 9, 10 };
+            Assert.IsTrue(list.FindLastIndex(x => x < 100) == 10);
+            Assert.IsTrue(list.FindLastIndex(x => x > 1) == 10);
+            Assert.IsTrue(list.FindLastIndex(x => x == 3) == 5);
+            Assert.IsTrue(list.FindLastIndex(x => x == 1) == 0);
+            Assert.IsTrue(list.FindLastIndex(x => x == 11) == -1);
+        }
+
+        [TestMethod]
+        public void FindAllTests()
+        {
+            List<int> list = list = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            Assert.IsTrue(list.FindAll(x => x < 100).Count == 10);
+            Assert.IsTrue(list.FindAll(x => x > 100).Count == 0);
+            Assert.IsTrue(list.FindAll(x => x < 100).Contains(5));
+        }
+
+        [TestMethod]
+        public void IndexOfTests()
+        {
+            List<int> list = list = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 5, 9, 10 };
+            Assert.IsTrue(list.IndexOf(1) == 0);
+            Assert.IsTrue(list.IndexOf(5) == 4);
+            Assert.IsTrue(list.IndexOf(50) == -1);
+            Assert.IsTrue(list.LastIndexOf(5) == 8);
+            Assert.IsTrue(list.LastIndexOf(50) == -1);
+        }
+
+        [TestMethod]
+        public void TrueForAllTests()
+        {
+            List<int> list = list = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 5, 9, 10 };
+            Assert.IsTrue(list.TrueForAll(x => x > 0));
+            Assert.IsFalse(list.TrueForAll(x => x < 10));
+        }
+
+        [TestMethod]
+        public void ForEachTests()
+        {
+            int index = 0;
+            List<int> list = list = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            list.ForEach(x => { Assert.IsTrue(x == index++); });
+            Assert.IsTrue(index == 11);
+        }
+
         private void TestListElements(List<int> list)
         {
             int index = 0;
