@@ -276,7 +276,7 @@ namespace DataStructures.Tests.List
         [TestMethod]
         public void TrueForAllTests()
         {
-            List<int> list = list = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 5, 9, 10 };
+            List<int> list = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 5, 9, 10 };
             Assert.IsTrue(list.TrueForAll(x => x > 0));
             Assert.IsFalse(list.TrueForAll(x => x < 10));
         }
@@ -285,9 +285,43 @@ namespace DataStructures.Tests.List
         public void ForEachTests()
         {
             int index = 0;
-            List<int> list = list = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            List<int> list = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
             list.ForEach(x => { Assert.IsTrue(x == index++); });
             Assert.IsTrue(index == 11);
+        }
+
+        [TestMethod]
+        public void ConvertAllTests()
+        {
+            List<string> list = new List<string> { "0s", "1s", "2s", "3s", "4s", "5s", "6s", "7s", "8s", "9s" };
+            this.TestListElements(list.ConvertAll(x => (int)Char.GetNumericValue(x[0])));
+        }
+
+        [TestMethod]
+        public void ToArrayTests()
+        {
+            List<int> list = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            int[] array = list.ToArray();
+            Assert.IsTrue(array.Length == 11);
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                Assert.IsTrue(array[i] == i);
+            } 
+        }
+
+        [TestMethod]
+        public void CopyToTests()
+        {
+            List<int> list = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            int[] array = new int[11];
+            list.CopyTo(array);
+            Assert.IsTrue(array.Length == 11);
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                Assert.IsTrue(array[i] == i);
+            }
         }
 
         private void TestListElements(List<int> list)

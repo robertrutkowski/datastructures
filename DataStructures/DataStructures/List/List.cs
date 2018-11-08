@@ -324,6 +324,29 @@ namespace DataStructures.List
             return true;
         }
 
+        public List<U> ConvertAll<U>(Converter<T, U> converter)
+        {
+            List<U> result = new List<U>(this.Count);
+            for (int i = 0; i < this.Count; i++)
+            {
+                result.array[i] = converter(this.array[i]);
+            }
+            result.Count = this.Count;
+            return result;
+        }
+
+        public T[] ToArray()
+        {
+            T[] result = new T[this.Count];
+            Array.Copy(this.array, result, this.Count);
+            return result;
+        }
+
+        public void CopyTo(T[] array)
+        {
+            Array.Copy(this.array, array, this.Count);
+        }
+
         public void ForEach(Action<T> action)
         {
             if (action == null)
