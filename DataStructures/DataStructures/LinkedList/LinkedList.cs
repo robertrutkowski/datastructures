@@ -19,7 +19,7 @@ namespace DataStructures.LinkedList
             {
                 int index = 0;
                 LinkedListNode<T> current = this.Head;
-                while (current != null)
+                foreach (var item in this)
                 {
                     if (index == i)
                     {
@@ -38,6 +38,7 @@ namespace DataStructures.LinkedList
         {
             if (this.Count == 0)
             {
+                node.Next = null;
                 this.Head = this.Tail = node;
             }
             else
@@ -54,19 +55,42 @@ namespace DataStructures.LinkedList
             this.AddFirst(new LinkedListNode<T>(item));
         }
 
+        public void Add(LinkedListNode<T> node)
+        {
+            if (this.Count == 0)
+            {
+                this.AddFirst(node);
+            }
+            else
+            {
+                node.Next = null;
+                this.Tail = this.Tail.Next = node;
+                this.Count++;
+            }
+        }
+
         public void Add(T item)
         {
-            throw new NotImplementedException();
+            this.Add(new LinkedListNode<T>(item));
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            this.Head = null;
+            this.Tail = null;
+            this.Count = 0;
         }
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            foreach (var listItem in this)
+            {
+                if (item.Equals(listItem))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -91,7 +115,7 @@ namespace DataStructures.LinkedList
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.GetEnumerator();
         }
     }
 }

@@ -49,8 +49,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LinkedList\AddItemTests.cs" />
-    <Compile Include="LinkedList\RetrieveItemTests.cs" />
+    <Compile Include="LinkedList\LinkedListTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
