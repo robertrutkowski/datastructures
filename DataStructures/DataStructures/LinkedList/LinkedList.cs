@@ -55,18 +55,74 @@ namespace DataStructures.LinkedList
             this.AddFirst(new LinkedListNode<T>(item));
         }
 
-        public void Add(LinkedListNode<T> node)
+        public void AddLast(LinkedListNode<T> node)
         {
+            node.Next = null;
+
             if (this.Count == 0)
             {
-                this.AddFirst(node);
+                this.Head = this.Tail = node;
             }
             else
             {
-                node.Next = null;
-                this.Tail = this.Tail.Next = node;
-                this.Count++;
+                this.Tail.Next = node;
+                this.Tail = node;
             }
+            this.Count++;
+        }
+
+        public void AddLast(T item)
+        {
+            this.AddLast(new LinkedListNode<T>(item));
+        }
+
+        public void RemoveFirst()
+        {
+            if (this.Count == 0)
+            {
+                throw new InvalidOperationException("List has no elements.");
+            }
+            else if (this.Count == 1)
+            {
+                this.Head = this.Tail = null;
+            }
+            else
+            {
+                this.Head = this.Head.Next;
+            }
+            this.Count--;
+        }
+
+        public void RemoveLast()
+        {
+            if (this.Count == 0)
+            {
+                throw new InvalidOperationException("List has no elements.");
+            }
+            else if (this.Count == 1)
+            {
+                this.Head = this.Tail = null;
+            }
+            else
+            {
+                LinkedListNode<T> current = this.Head;
+                while (current != null)
+                {
+                    if (current.Next == this.Tail)
+                    {
+                        current.Next = null;
+                        this.Tail = current;
+                    }
+
+                    current = current.Next;
+                }
+            }
+            this.Count--;
+        }
+
+        public void Add(LinkedListNode<T> node)
+        {
+            this.AddLast(node);
         }
 
         public void Add(T item)
@@ -95,7 +151,10 @@ namespace DataStructures.LinkedList
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            foreach (var item in this)
+            {
+                array[arrayIndex++] = item;
+            }
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -108,9 +167,47 @@ namespace DataStructures.LinkedList
             }
         }
 
+        public void Remove(LinkedListNode<T> node)
+        {
+            if (node == this.Head)
+            {
+                this.RemoveFirst();
+            }
+            else if (node == this.Tail)
+            {
+                this.RemoveLast();
+            }
+            else
+            {
+                node.Item = node.Next.Item;
+                node.Next = node.Next.Next;
+                if (node.Next == null)
+                {
+                    this.Tail = node;
+                }
+                this.Count--;
+            }
+        }
+
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            if (item == null)
+            {
+                throw new ArgumentNullException("Parameter 'item' is null");
+            }
+
+            LinkedListNode<T> current = this.Head;
+            while (current != null)
+            {
+                if (item.Equals(current.Item))
+                {
+                    this.Remove(current);
+                    return true;
+                }
+                current = current.Next;
+            }
+
+            return false;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
