@@ -39,14 +39,139 @@ namespace DataStructures.BinaryTree
             }
         }
 
+        public bool Contains(T value)
+        {
+            return this.Find(value, out BinaryTreeNode<T> parent) != null;
+        }
+
+        private BinaryTreeNode<T> Find(T value, out BinaryTreeNode<T> parent)
+        {
+            parent = null;
+            BinaryTreeNode<T> current = this.head;
+
+            while (current != null)
+            {
+                if (current.CompareTo(value) > 0)
+                {
+                    parent = current;
+                    current = current.Left;
+                }
+                else if (current.CompareTo(value) < 0)
+                {
+                    parent = current;
+                    current = current.Right;
+                }
+                else
+                {
+                    return current;
+                }
+            }
+
+            return null;
+        }
+
+        public void Remove(T value)
+        {
+            BinaryTreeNode<T> nodeToRemoval = this.Find(value, out BinaryTreeNode<T> parent);
+
+            if (nodeToRemoval == null)
+            {
+                return;
+            }
+
+            this.count--;
+
+
+            if (nodeToRemoval.Right == null)
+            {
+                if (parent == null)
+                {
+                    this.head = nodeToRemoval.Left;
+                }
+                else
+                {
+                    var nodeToAssign = nodeToRemoval.CompareTo(parent.Value) < 0 ? parent.Left : parent.Right;
+                    nodeToAssign = nodeToRemoval.Left;
+                }
+            }
+            else if (nodeToRemoval.Right.Left == null)
+            {
+                if (parent == null)
+                {
+                    this.head = nodeToRemoval.Right;
+                }
+                else
+                {
+                    var nodeToAssign = nodeToRemoval.CompareTo(parent.Value) < 0 ? parent.Left : parent.Right;
+                    nodeToRemoval.Right.Left = nodeToRemoval.Left;
+                    nodeToAssign = nodeToRemoval.Right;
+                }
+            }
+            else
+            {
+                BinaryTreeNode<T> leftMost = nodeToRemoval.Right.Left;
+                BinaryTreeNode<T> leftMostParent = nodeToRemoval.Right;
+
+                while (leftMost.Left != null)
+                {
+                    leftMostParent = leftMost;
+                    leftMost = leftMost.Left;
+                }
+
+                leftMostParent.Left = leftMost.Right;
+
+                leftMost.Left = nodeToRemoval.Left;
+                leftMost.Right = nodeToRemoval.Right;
+
+                if (parent == null)
+                {
+                    this.head = leftMost;
+                }
+                else
+                {
+                    var nodeToAssign = nodeToRemoval.CompareTo(parent.Value) < 0 ? parent.Left : parent.Right;
+                    nodeToAssign = leftMost;
+                }
+            }
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            Stack<BinaryTreeNode<T>> stack = new Stack<BinaryTreeNode<T>>();
+
+            if (this.head == null)
+            {
+                yield break;
+            }
+
+            stack.Push(this.head);
+
+            while (stack.Count > 0)
+            {
+                var current = this.head;
+
+                while (current.Left != null)
+                {
+                    stack.Push(current.Left);
+                    current = current.Left;
+                }
+
+                yield return current.Value;
+
+                if (current.Right != null)
+                {
+                    stack.Push(current.Right);
+                }
+                else
+                {
+                    current = stack.Pop();
+                }
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.GetEnumerator();
         }
     }
 }
