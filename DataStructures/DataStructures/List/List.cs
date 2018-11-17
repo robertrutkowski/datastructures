@@ -362,7 +362,7 @@ namespace DataStructures.List
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            Array.Copy(this.array, 0, array, arrayIndex, this.Count);
         }
 
         public IEnumerator<T> GetEnumerator()
