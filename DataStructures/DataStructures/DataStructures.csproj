@@ -43,6 +43,9 @@
   <ItemGroup>
     <Compile Include="BinaryTree\BinaryTree.cs" />
     <Compile Include="BinaryTree\BinaryTreeNode.cs" />
+    <Compile Include="HashTable\HashTable.cs" />
+    <Compile Include="HashTable\HashTableArray.cs" />
+    <Compile Include="HashTable\HashTableNodePair.cs" />
     <Compile Include="LinkedList\LinkedList.cs" />
     <Compile Include="LinkedList\LinkedListNode.cs" />
     <Compile Include="List\List.cs" />
